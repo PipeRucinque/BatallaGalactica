@@ -114,6 +114,8 @@ class Shuttle{
         } 
     }
 
+    
+
     shoot() {
         let misil = new Misil(//const(x, y, w, ctx)
             this.x + (this.w * 0.3),

@@ -40,12 +40,15 @@ const Game = {
             }
 
             if(this.misilCollision()){
-                this.destroy()
+                console.log("destruido");
+                this.enemyDeath()
+
+                //this.destroy()
             }
 
-            if (this.reachBottom()) {
-                this.gameOver()
-            }
+            // if (this.reachBottom()) {
+            //     this.gameOver()
+            // }
             
         }, 1000 / this.fps);
     },
@@ -67,7 +70,6 @@ const Game = {
     },
 
     drawAll: function() {
-        
         this.background.draw() 
         this.shuttle.draw(this.frameCounter)
         this.enemies.forEach(enemy => {
@@ -85,10 +87,14 @@ const Game = {
         )
     },
 
+    explote: function(){//x, y, w, ctx
+        new Explotion()
+    },
+
     clearEnemies: function(){
         this.enemies = this.enemies.filter((enemy) => enemy.y <= this.canvas.height)
     },
-    
+
     shuttleColission: function(){
         return this.enemies.some(ovni => {
             return (
@@ -96,27 +102,37 @@ const Game = {
                 this.shuttle.y + (this.shuttle.h/2) >= ovni.y &&
                 this.shuttle.x + this.shuttle.w >= ovni.x &&
                 this.shuttle.x <= ovni.x + (ovni.w/2)
+            )
+        })
+    },
+    
+    misilCollision: function () {
+        return this.enemies.some(ovni => {
+            return this.shuttle.missiles.some(misil => {
+                let result = (
+                    misil.y <= ovni.y + ovni.h &&
+                    misil.x <= ovni.x + ovni.w &&
+                    misil.x + misil.misilW >= ovni.x &&
+                    misil.y + misil.misilH >= ovni.y
                 )
+                if(result) {
+                    this.enemies = this.enemies.filter(o => o !== ovni)
+                    this.shuttle.missiles = this.shuttle.missiles.filter(m => m !== misil)
+                }
+                return result
             })
-        },
+        })
+    },
+
+    enemyDeath: function(){
+        this.enemies = this.enemies.filter((enemy) => enemy.src = "img/explotion.png")
+    },
         
     reachBottom: function(){
         return this.enemies.some(ovni =>{
             return this.canvas.height >= ovni.y
         })
     },
-
-    misilCollision: function () {
-        return this.enemies.some(ovni => { //shuttle.misil.
-            return (
-                this.misil.y <= ovni.y + (ovni.h/2) &&
-                this.misil.y + (this.misil.h/2) >= ovni.y &&
-                this.misil.x + this.misil.w >= ovni.x &&
-                this.misil.x <= ovni.x + ovni.w
-            )
-        })
-    },
-
 
     destroy: function(){
         console.log("Ovni destruido")
