@@ -8,7 +8,12 @@ class Misil {
 
         this.img = new Image();
         this.img.src = "img/misil.png";
+        // this.imgLeft = new Image();
+        // this.img.src = "img/misilLeft.png";
+        // this.imgRight = new Image();
+        // this.img.src = "img/misilRight.png";
 
+        this.vel_x = 10;
         this.vel_y = 10; 
     }
 
@@ -21,8 +26,32 @@ class Misil {
             this.misilH
         )
     }
+    drawLeft() {
+        this.ctx.drawImage(
+            this.imgLeft,
+            this.x,          //posicion x de la nave
+            this.y,            //posicion y de la nave
+            this.misilW,
+            this.misilH
+        )
+    }
+    drawRight() {
+        this.ctx.drawImage(
+            this.imgRight,
+            this.x,          //posicion x de la nave
+            this.y,            //posicion y de la nave
+            this.misilW,
+            this.misilH
+        )
+    }
 
     move(){
         this.y -= this.vel_y;
+    }
+    moveLeft(){
+        this.x -= this.vel_x;
+    }
+    moveRight(){
+        this.x += this.vel_x;
     }
 }

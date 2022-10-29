@@ -8,7 +8,7 @@ class Enemy {
         this.y = -100;
        
         this.img = new Image();
-        this.img.src = `img/ovni${Math.floor(Math.random()* 4 + 1)}.png`;
+        this.img.src = `img/ovni${Math.floor(Math.random()* 5 + 1)}.png`;
         
         //tamaño de los enemigos
         this.w = 70;

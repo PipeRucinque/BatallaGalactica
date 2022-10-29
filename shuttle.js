@@ -28,6 +28,8 @@ class Shuttle{
         this.bottomLimit =  this.canvasH - this.h;
 
         this.missiles = []
+        this.missilesLeft = []
+        this.missilesRight = []
   }
     
 
@@ -47,6 +49,10 @@ class Shuttle{
                 this.accel = 6
             } else if (event.keyCode === this.keys.SPACE) { 
                 this.shoot()
+            } else if (event.keyCode === this.keys.F_BUTTON) { 
+                this.shootLeft()
+            } else if (event.keyCode === this.keys.J_BUTTON) { 
+                this.shootRight()
             }
         }.bind(this)
 
@@ -83,12 +89,19 @@ class Shuttle{
         )
         this.animateImg(frameCounter)
 
-        //clear misiles
         this.missiles = this.missiles.filter((misil) => misil.y > 0 - 50)
         this.missiles.forEach((misil) => {
             misil.draw();
             misil.move();
         }) 
+        this.missilesLeft.forEach((misil) => {
+            misil.draw();
+            misil.moveLeft();
+        }) 
+        this.missilesRight.forEach((misil) => {
+            misil.draw();
+            misil.moveRight();  
+        })
     }
 
     animateImg(frameCounter){
@@ -119,10 +132,31 @@ class Shuttle{
     shoot() {
         let misil = new Misil(//const(x, y, w, ctx)
             this.x + (this.w * 0.3),
-            this.y - (this.y * 0.05),
+            this.y + (this.y * 0.05),
             40,
             this.ctx
         )
-        this.missiles.push(misil)
+        this.missiles.push(misil)   
     }
+
+    shootLeft() {
+        let misilLeft = new Misil(//const(x, y, w, ctx)
+            this.x,
+            this.y + (this.y * 0.05),
+            40,
+            this.ctx
+        )
+        this.missilesLeft.push(misilLeft)   
+    }
+
+    shootRight() {
+        let misilRight = new Misil(//const(x, y, w, ctx)
+            this.x + (this.x * 0.1),
+            this.y + (this.y * 0.05),
+            40,
+            this.ctx
+        )
+        this.missilesRight.push(misilRight)   
+    }
+    
 }
